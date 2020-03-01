@@ -18,7 +18,8 @@ module.exports = {
       afterCreate: (conn, done) => {
         conn.run("PRAGMA foreign_keys = ON", done); // turn on foreign key 
       }
-    },
+    }
+  },
     testing: {
       client: 'sqlite3',
       connection: { filename: './database/test.db3' },
@@ -44,16 +45,27 @@ module.exports = {
     production: {
       client: 'pg',
       connection: process.env.DATABASE_URL,
-      pool: {
-        min: 2,
-        max: 10,
-      },
       migrations: {
-        directory: './data/migrations',
+        directory: './data/migrations'
       },
       seeds: {
-        directory: './data/seeds',
+        directory: './data/seeds'
       },
     },
+    // production: {
+    //   client: 'sqlite3',
+    //   connection: {
+    //     filename: './data/production.db3',
+    //   },
+    //   useNullAsDefault: true,
+    //   migrations: {
+    //     directory: './data/migrations',
+    //   },
+    //   seeds: {
+    //     directory: './data/seeds',
+    //   },
+    // },
+    
+    
   }
-}
+
