@@ -14,14 +14,14 @@ router.post('/register', checkForUserData, (req, res) => {
   credentials.password = hash;
   
   Users.add(credentials)
-    .then(savedUser => {
-    //   const token = generateToken(savedUser);
-      console.log(savedUser);
+  .then(savedUser => {
+      const token = generateToken(savedUser);
+      // console.log(savedUser);
 
-      res.status(201).json({ savedUser, token });
-    })
+      res.status(201).json({ message: "register success", savedUser, token })
+  })
     .catch(error => {
-      res.status(500).json(error);
+      res.status(500).json(error.message);
     });
 })
 
