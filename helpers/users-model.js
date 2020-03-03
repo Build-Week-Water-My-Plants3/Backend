@@ -26,7 +26,12 @@ function findById(id) {
 }
 
 function add(user) {
-  return db.insert(user).into('users')
+  return db('users')
+  .insert(user)
+  .then(ids => {
+    const [id] = ids;
+    return findById(id)
+  })
 }
 
 function update(id, changes) {
