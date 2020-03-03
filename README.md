@@ -11,7 +11,7 @@
 3. Select a "GET" request for now.
 4. Uee localhost:5000 for the address.
 5. If you are using Heroku, use this link for the address insted - "
-https://git.heroku.com/wmp3.git".
+https://wmp3.herokuapp.com".
 6. Send the request.
 7. You Should get the message "Water My Plants!".
 
@@ -29,7 +29,7 @@ JSON requirements for users:
 }
 ```
 1. At the end of localhost:5000 (or the Heroku link "
-https://git.heroku.com/wmp3.git") in your address, put api/auth to use authorization for these routes. For example localhost:5000/api/auth. For all of the following instructions you may replace localhost:5000 with the Herokuu link if you want to use the hosted server.
+https://wmp3.herokuapp.com") in your address, put api/auth to use authorization for these routes. For example localhost:5000/api/auth. For all of the following instructions you may replace localhost:5000 with the Herokuu link if you want to use the hosted server.
 
 ## To Register
 
