@@ -11,7 +11,7 @@ function validatePlantId(req, res, next) {
         res.status(400).json({ errorMessage: 'The plant with the specified ID does not exist' });
       }
     })
-    .catch(erorr => {
+    .catch(errorMessage => {
       res.status(500).json({ errorMessage: 'Could not validate plant information for the specified ID' });
     })
 }
