@@ -8,10 +8,6 @@ describe('server.js', () => {
     await db('users').truncate(); 
   })
  
-  it('runs the tests', () => {
-    expect(true).toBe(true);
-  })
-
   describe('POST /auth/register', () => {
     it('add a user to the database', async () => {
       //checks that the database is empty
