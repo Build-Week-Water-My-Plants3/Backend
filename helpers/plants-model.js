@@ -3,7 +3,7 @@ const db = require('../data/dbConfig.js');
 module.exports = {
   find,
   findBy,
-  findById,
+  myPlantId,
   findPlantsByUser,
   add,
   update,
@@ -19,7 +19,7 @@ function findBy(filter) {
     .where(filter);
 }
 
-function findById(id) {
+function myPlantId(id) {
   return db('plants')
     .where({ id })
     .first();

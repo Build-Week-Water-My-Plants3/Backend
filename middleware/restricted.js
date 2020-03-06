@@ -7,12 +7,12 @@ module.exports = (req, res, next) => {
   if (authorization) {
     jwt.verify(authorization, jwtSecret, (err) => {
       if (err) {
-        res.status(401).json({ errorMessage: "You are not authorized" });
+        res.status(401).json({ error: 'You are not authorized' });
       } else {
         next();
       }
     })
   } else {
-    res.status(404).json({ errorMessage: 'authorization credentials not found' })
+    res.status(404).json({ error: 'authorization credentials not found' })
   }
 }

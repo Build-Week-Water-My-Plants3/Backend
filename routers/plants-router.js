@@ -1,11 +1,9 @@
 const router = require('express').Router();
 const Plants = require('../helpers/plants-model.js');
 const restricted = require('../middleware/restricted.js');
-const validatePlantId = require('../middleware/validate-plant-id.js');
-const checkForPlantData = require('../middleware/check-for-plant-data.js');
+const validatePlant = require('../middleware/plant-id.js');
+const checkPlantData = require('../middleware/plant-data.js');
 
-
-// GET a list of plants
 
 router.get('/', restricted, (req, res) => {
   Plants.find()
@@ -13,55 +11,49 @@ router.get('/', restricted, (req, res) => {
       res.status(200).json(plants);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Could not receive the list of plants' })
+      res.status(500).json({ error: 'list of plants is not received' })
     })
 })
 
-// GET a specific plant by id
-
-router.get('/:id', restricted, validatePlantId, (req, res) => {
+router.get('/:id', restricted, validatePlant, (req, res) => {
   const id = req.params.id;
 
-  Plants.findById(id)
+  Plants.myPlantId(id)
     .then(plants => {
       res.status(200).json(plants);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Could not receive the specified plant' })
+      res.status(500).json({ error: 'plant is not received' })
     })
 })
 
-// UPDATE a plant's information
-
-router.put('/:id', restricted, validatePlantId, checkForPlantData, (req, res) => {
+router.put('/:id', restricted, validatePlant, checkPlantData, (req, res) => {
   const id = req.params.id;
   const changes = req.body;
   const updatedPlant = { ...changes, id };
 
   Plants.update(id, changes)
     .then(editPlant => {
-      console.log(updatedPlant);
+      console.log(editPlant);
       res.status(200).json(updatedPlant);
     })
     .catch(error => {
       console.log(error);
-      res.status(500).json({ errorMessage: 'The plant information could not be modified' });
+      res.status(500).json({ error: 'could not change plant information' });
     })
 })
 
-// DELETE a plant from the database
-
-router.delete('/:id', restricted, validatePlantId, (req, res) => {
+router.delete('/:id', restricted, validatePlant, (req, res) => {
   const id = req.params.id;
 
   Plants.remove(id)
     .then(deleted => {
       console.log(deleted);
-      res.status(200).json({ success: `the plant was successfully deleted from the database` });
+      res.status(200).json({ success: ` deleted plant was success` });
     })
     .catch(error => {
       console.log(error);
-      res.status(500).json({ errorMessage: 'The plant could not be deleted' });
+      res.status(500).json({ error: 'could not delete a plant' });
     })
 })
 
