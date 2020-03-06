@@ -75,10 +75,10 @@ describe('server.js', () => {
   //GET USERS
  
   describe('GET /users', () => {
-    it('401', () => {
+    it('404', () => {
       return request(server).get('/api/users')
         .then(res => {
-          expect(res.status).toBe(401);
+          expect(res.status).toBe(404);
         })
     })
     it('return JSON', async () => {
@@ -119,10 +119,10 @@ describe('server.js', () => {
   //GET USER BY ID
  
   describe('GET /users/:id', () => {
-    it('401', () => {
+    it('404', () => {
       return request(server).get('/api/users/1')
         .then(res => {
-          expect(res.status).toBe(401);
+          expect(res.status).toBe(404);
         })
     })
     it('specific user on successful login with token', async () => {
@@ -157,10 +157,10 @@ describe('server.js', () => {
   //GET PLANTS
   
   describe('GET /plants', () => {
-    it('401', () => {
+    it('404', () => {
       return request(server).get('/api/plants')
         .then(res => {
-          expect(res.status).toBe(401);
+          expect(res.status).toBe(404);
         })
     })
     it('return JSON', async () => {
@@ -252,7 +252,7 @@ describe('users model', function () {
         phone_number: '4445111411'
       });
       const newUser = await db('users');
-      await Users.findById(newUser[0].id);
+      await Users.myUserId(newUser[0].id);
       expect(newUser[0]).toHaveProperty('id', 1);
     })
   })
