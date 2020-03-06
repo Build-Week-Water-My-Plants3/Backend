@@ -1,6 +1,6 @@
 const Plants = require('../helpers/plants-model.js');
 
-function validatePlantId(req, res, next) {
+function validatePlant(req, res, next) {
   const id = req.params.id;
 
   Plants.findById(id)
@@ -8,12 +8,12 @@ function validatePlantId(req, res, next) {
       if (plant) {
         next();
       } else {
-        res.status(400).json({ errorMessage: 'The plant with the specified ID does not exist' });
+        res.status(400).json({ errorMessage: 'need plant ID' });
       }
     })
     .catch(errorMessage => {
-      res.status(500).json({ errorMessage: 'Could not validate plant information for the specified ID' });
+      res.status(500).json({ errorMessage: 'need specific ID to validate plant' });
     })
 }
 
-module.exports = validatePlantId;
+module.exports = validatePlant;

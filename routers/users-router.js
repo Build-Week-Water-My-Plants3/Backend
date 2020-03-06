@@ -15,11 +15,9 @@ router.get('/', restricted, (req, res) => {
       res.status(200).json(user);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Could not receive the list of users' })
+      res.status(500).json({ errorMessage: 'users list not received' })
     })
 })
-
-// GET a specific user by id
 
 router.get('/:id', restricted, validateUserId, (req, res) => {
   const id = req.params.id;
@@ -29,11 +27,9 @@ router.get('/:id', restricted, validateUserId, (req, res) => {
       res.status(200).json(users);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Could not receive the specified user' })
+      res.status(500).json({ errorMessage: 'user not received' })
     })
 })
-
-// UPDATE a user's information
 
 router.put('/:id', restricted, validateUserId, (req, res) => {
   const id = req.params.id;
@@ -49,11 +45,9 @@ router.put('/:id', restricted, validateUserId, (req, res) => {
     })
     .catch(error => {
       console.log(error);
-      res.status(500).json({ errorMessage: 'The user information could not be modified' });
+      res.status(500).json({ errorMessage: 'users could not be modified' });
     })
 })
-
-// DELETE a user from the database
 
 router.delete('/:id', restricted, validateUserId, (req, res) => {
   const id = req.params.id;
@@ -61,15 +55,13 @@ router.delete('/:id', restricted, validateUserId, (req, res) => {
   Users.remove(id)
     .then(deleted => {
       console.log(deleted);
-      res.status(200).json({ success: `the user was successfully deleted from the database` });
+      res.status(200).json({ success: `user was deleted from the database` });
     })
     .catch(error => {
       console.log(error);
-      res.status(500).json({ errorMessage: 'The user could not be deleted' });
+      res.status(500).json({ errorMessage: 'user could not be deleted' });
     })
 })
-
-// GET a list of plants for a specific user
 
 router.get('/:id/plants', restricted, validateUserId, (req, res) => {
   console.log(req.params.id);
@@ -78,11 +70,9 @@ router.get('/:id/plants', restricted, validateUserId, (req, res) => {
       res.status(200).json(user);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Could not receive the list of plants for the specified user' })
+      res.status(500).json({ errorMessage: 'Could not get the list of plants for user' })
     })
 })
-
-// ADD a plant for the specified user
 
 router.post('/:id/plants', restricted, validateUserId, checkForPlantData, (req, res) => {
   const id = req.params.id;
@@ -94,7 +84,7 @@ router.post('/:id/plants', restricted, validateUserId, checkForPlantData, (req, 
       res.status(201).json(newPlant);
     })
     .catch(error => {
-      res.status(500).json({ errorMessage: 'There was an error saving the plant to the database' });
+      res.status(500).json({ errorMessage: 'Could not save the plant to the database' });
     })
 })
 

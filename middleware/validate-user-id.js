@@ -1,6 +1,6 @@
 const Users = require('../helpers/users-model.js');
 
-function validateUserId(req, res, next) {
+function validateUser(req, res, next) {
   const id = req.params.id;
 
   Users.findById(id)
@@ -8,7 +8,7 @@ function validateUserId(req, res, next) {
       if (user) {
         next();
       } else {
-        res.status(400).json({ errorMessage: 'The user with the specified ID does not exist' });
+        res.status(400).json({ errorMessage: 'need user ID' });
       }
     })
     .catch(erorr => {
@@ -16,4 +16,4 @@ function validateUserId(req, res, next) {
     })
 }
 
-module.exports = validateUserId;
+module.exports = validateUser;
