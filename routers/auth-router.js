@@ -2,11 +2,9 @@ const router = require('express').Router();
 const bc = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secrets = require('../config/secrets.js');
-const checkForUserData = require('../middleware/check-for-user-data.js');
+const checkForUserData = require('../middleware/user-data.js');
 const Users = require('../helpers/users-model.js');
 
-
-// REGISTER a new user
 
 router.post('/register', checkForUserData, (req, res) => {
   let credentials = req.body;
@@ -16,16 +14,13 @@ router.post('/register', checkForUserData, (req, res) => {
   Users.add(credentials)
   .then(savedUser => {
       const token = generateToken(savedUser);
-      // console.log(savedUser);
-
-      res.status(201).json({ message: "register success", savedUser, token })
+    
+      res.status(201).json({ message: 'register success', savedUser, token })
   })
     .catch(error => {
       res.status(500).json(error.message);
     });
 })
-
-// LOGIN user
 
 router.post('/login', (req, res) => {
   let { username, password } = req.body;

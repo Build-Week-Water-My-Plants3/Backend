@@ -3,8 +3,8 @@ const bc = require('bcryptjs');
 const Users = require('../helpers/users-model.js');
 const Plants = require('../helpers/plants-model.js');
 const restricted = require('../middleware/restricted.js');
-const validateUserId = require('../middleware/validate-user-id.js');
-const checkForPlantData = require('../middleware/check-for-plant-data.js');
+const validateUser = require('../middleware/user-id.js');
+const checkPlantData = require('../middleware/plant-data.js');
 
 
 // GET a list of all users
@@ -15,27 +15,23 @@ router.get('/', restricted, (req, res) => {
       res.status(200).json(user);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Could not receive the list of users' })
+      res.status(500).json({ error: 'users list not received' })
     })
 })
 
-// GET a specific user by id
-
-router.get('/:id', restricted, validateUserId, (req, res) => {
+router.get('/:id', restricted, validateUser, (req, res) => {
   const id = req.params.id;
 
-  Users.findById(id)
+  Users.myUserId(id)
     .then(users => {
       res.status(200).json(users);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Could not receive the specified user' })
+      res.status(500).json({ error: 'user not received' })
     })
 })
 
-// UPDATE a user's information
-
-router.put('/:id', restricted, validateUserId, (req, res) => {
+router.put('/:id', restricted, validateUser, (req, res) => {
   const id = req.params.id;
   const changes = req.body;
   const hash = bc.hashSync(changes.password, 8); 
@@ -49,42 +45,36 @@ router.put('/:id', restricted, validateUserId, (req, res) => {
     })
     .catch(error => {
       console.log(error);
-      res.status(500).json({ errorMessage: 'The user information could not be modified' });
+      res.status(500).json({ error: 'users could not be modified' });
     })
 })
 
-// DELETE a user from the database
-
-router.delete('/:id', restricted, validateUserId, (req, res) => {
+router.delete('/:id', restricted, validateUser, (req, res) => {
   const id = req.params.id;
 
   Users.remove(id)
     .then(deleted => {
       console.log(deleted);
-      res.status(200).json({ success: `the user was successfully deleted from the database` });
+      res.status(200).json({ success: `user was deleted` });
     })
     .catch(error => {
       console.log(error);
-      res.status(500).json({ errorMessage: 'The user could not be deleted' });
+      res.status(500).json({ error: 'user could not be deleted' });
     })
 })
 
-// GET a list of plants for a specific user
-
-router.get('/:id/plants', restricted, validateUserId, (req, res) => {
+router.get('/:id/plants', restricted, validateUser, (req, res) => {
   console.log(req.params.id);
   Plants.findPlantsByUser(req.params.id)
     .then(user => {
       res.status(200).json(user);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Could not receive the list of plants for the specified user' })
+      res.status(500).json({ error: 'Could not get the list of plants for user' })
     })
 })
 
-// ADD a plant for the specified user
-
-router.post('/:id/plants', restricted, validateUserId, checkForPlantData, (req, res) => {
+router.post('/:id/plants', restricted, validateUser, checkPlantData, (req, res) => {
   const id = req.params.id;
   let plants = req.body;
   plants = { ...plants, user_id: id };
@@ -94,7 +84,7 @@ router.post('/:id/plants', restricted, validateUserId, checkForPlantData, (req, 
       res.status(201).json(newPlant);
     })
     .catch(error => {
-      res.status(500).json({ errorMessage: 'There was an error saving the plant to the database' });
+      res.status(500).json({ error: 'Could not save the plant' });
     })
 })
 
